@@ -1,25 +1,26 @@
-import { GlobalStyles } from "@/components/GlobalStyles";
 import logo from "@/assets/img/logo.svg";
-import { useRef } from "react";
-import useAudioController from "@/store/AudioController";
+import useAudioController, { AudioState } from "@/store/AudioController";
 import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
+import { Logo } from "@/components/Logo";
+import { AppLayout } from "@/components/AppLayout";
+import { PlaybackButton } from "@/components/PlaybackButton";
+import ControlPanel from "../ControlPanel";
 
 function App() {
-  const audioElement = useRef(null);
+  const initialized = useAudioController((state) => state.initialized);
+  const audioState = useAudioController((state) => state.audioState);
+
   const init = useAudioController((state) => state.init);
   const fetchSrc = useAudioController((state) => state.fetchSrc);
   const play = useAudioController((state) => state.play);
   const stop = useAudioController((state) => state.stop);
 
-  const onStart = () => {
-    init();
-  };
-
-  const onFetchSrc = () => {
-    fetchSrc(whiteNoiseUrl);
-  };
-
   const onPlay = () => {
+    if (!initialized) {
+      init();
+      fetchSrc(whiteNoiseUrl);
+    }
+
     play();
   };
 
@@ -27,16 +28,20 @@ function App() {
     stop();
   };
 
+  const isPlaying = audioState === AudioState.PLAYING;
+
   return (
-    <GlobalStyles>
-      <div className="App">
-        <img src={logo} className="App-logo" alt="logo" />
-        <button onClick={onStart}>Init</button>
-        <button onClick={onFetchSrc}>White Noise</button>
-        <button onClick={onPlay}>Play</button>
-        <button onClick={onStop}>Stop</button>
-      </div>
-    </GlobalStyles>
+    <AppLayout>
+      <Logo src={logo} alt="SoundSleeper" />
+
+      {!isPlaying ? (
+        <PlaybackButton onClick={onPlay}>Play</PlaybackButton>
+      ) : (
+        <PlaybackButton onClick={onStop}>Stop</PlaybackButton>
+      )}
+
+      <ControlPanel />
+    </AppLayout>
   );
 }
 

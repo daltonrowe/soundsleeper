@@ -1,12 +1,13 @@
 import create from "zustand";
 
-enum AudioState {
+export enum AudioState {
   NOTSTARTED = "NOTSTARTED",
   PLAYING = "PLAYING",
   STOPPED = "STOPPED",
 }
 
 interface AudioControllerState {
+  initialized: boolean;
   audioState: AudioState;
   audioRef: HTMLAudioElement | null;
   audioContext: AudioContext | null;
@@ -18,9 +19,11 @@ interface AudioControllerState {
   fetchSrc: (url: string) => void;
   play: () => void;
   stop: () => void;
+  setVolume: (gain: number) => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
+  initialized: false,
   audioState: AudioState.NOTSTARTED,
   audioRef: null,
   audioContext: null,
@@ -43,8 +46,10 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       audioContext,
       audioSource,
       gainNode,
+      initialized: true,
     });
   },
+
   fetchSrc: async (url) => {
     const { audioContext, audioSource } = get();
     if (!audioContext || !audioSource || audioSource.buffer) return;
@@ -84,6 +89,13 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
     audioSource.disconnect();
     set({ audioState: AudioState.STOPPED });
+  },
+
+  setVolume: (gain) => {
+    const { gainNode } = get();
+    if (!gainNode) return;
+
+    gainNode.gain.value = gain;
   },
 }));
 
