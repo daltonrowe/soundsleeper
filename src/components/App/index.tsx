@@ -5,12 +5,10 @@ import useAudioController from "@/store/AudioController";
 
 function App() {
   const audioElement = useRef(null);
-  const increase = useAudioController((state) => state.increase);
-  const log = useAudioController((state) => state.log);
+  const init = useAudioController((state) => state.init);
 
   const onStart = () => {
-    increase(1);
-    log();
+    if (audioElement.current) init(audioElement.current);
   };
 
   return (
