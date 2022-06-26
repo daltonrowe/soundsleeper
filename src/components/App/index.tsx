@@ -9,6 +9,7 @@ function App() {
   const init = useAudioController((state) => state.init);
   const fetchSrc = useAudioController((state) => state.fetchSrc);
   const play = useAudioController((state) => state.play);
+  const stop = useAudioController((state) => state.stop);
 
   const onStart = () => {
     init();
@@ -22,6 +23,10 @@ function App() {
     play();
   };
 
+  const onStop = () => {
+    stop();
+  };
+
   return (
     <GlobalStyles>
       <div className="App">
@@ -29,6 +34,7 @@ function App() {
         <button onClick={onStart}>Init</button>
         <button onClick={onFetchSrc}>White Noise</button>
         <button onClick={onPlay}>Play</button>
+        <button onClick={onStop}>Stop</button>
       </div>
     </GlobalStyles>
   );
