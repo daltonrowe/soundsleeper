@@ -1,3 +1,3 @@
-# Vite React Typescript Starter
+# Soundsleeper
 
-Starting point for vite react-ts projects with emotion/styled and path aliasing
+WIP
