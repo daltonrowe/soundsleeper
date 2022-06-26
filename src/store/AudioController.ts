@@ -6,6 +6,7 @@ interface AudioControllerState {
   track: MediaElementAudioSourceNode | null;
   gainNode: GainNode | null;
   init: (audioRef: HTMLAudioElement) => void;
+  setSrc: (url: string) => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
@@ -31,7 +32,13 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       track,
       gainNode
     }
-  })
+  }),
+  setSrc: (url) => {
+    const audioRef = get().audioRef;
+    if (!audioRef) return;
+
+    audioRef.src = url;
+  },
 }))
 
 export default useAudioController;
