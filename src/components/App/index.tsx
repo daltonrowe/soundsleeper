@@ -8,6 +8,7 @@ function App() {
   const audioElement = useRef(null);
   const init = useAudioController((state) => state.init);
   const setSrc = useAudioController((state) => state.setSrc);
+  const play = useAudioController((state) => state.play);
 
   const onStart = () => {
     if (audioElement.current) init(audioElement.current);
@@ -17,13 +18,18 @@ function App() {
     setSrc(whiteNoiseUrl);
   };
 
+  const onPlay = () => {
+    play();
+  };
+
   return (
     <GlobalStyles>
       <div className="App">
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={onStart}>Init</button>
-        <button onClick={onSetSrc}>Set to White Noise</button>
-        <audio ref={audioElement}></audio>
+        <button onClick={onSetSrc}>White Noise</button>
+        <button onClick={onPlay}>Play</button>
+        <audio ref={audioElement} loop={true}></audio>
       </div>
     </GlobalStyles>
   );

@@ -7,6 +7,7 @@ interface AudioControllerState {
   gainNode: GainNode | null;
   init: (audioRef: HTMLAudioElement) => void;
   setSrc: (url: string) => void;
+  play: () => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
@@ -33,12 +34,20 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       gainNode
     }
   }),
+
   setSrc: (url) => {
     const audioRef = get().audioRef;
     if (!audioRef) return;
 
     audioRef.src = url;
   },
+
+  play: () => {
+    const audioRef = get().audioRef;
+    if (!audioRef) return;
+
+    audioRef.play()
+  }
 }))
 
 export default useAudioController;
