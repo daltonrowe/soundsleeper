@@ -14,12 +14,17 @@ interface AudioControllerState {
   audioSource: AudioBufferSourceNode | null;
   audioSourceData: AudioBuffer | null;
   gainNode: GainNode | null;
+  eqNode: BiquadFilterNode | null;
+  tinFreq: number;
+  tinReduce: number;
 
   init: () => void;
   fetchSrc: (url: string) => void;
   play: () => void;
   stop: () => void;
   setVolume: (gain: number) => void;
+  setTinFreq: (khz: number) => void;
+  setTinReduce: (gain: number) => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
@@ -28,24 +33,38 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   audioRef: null,
   audioContext: null,
   gainNode: null,
+  eqNode: null,
   audioSource: null,
   audioSourceData: null,
+  tinFreq: 8000,
+  tinReduce: 0,
 
   init: () => {
     const prevAudioContext = get().audioContext;
     if (prevAudioContext) return; // context has already been created
 
     const audioContext = new AudioContext();
+
     const audioSource = audioContext.createBufferSource();
     audioSource.loop = true;
+
     const gainNode = audioContext.createGain();
 
-    audioSource.connect(gainNode).connect(audioContext.destination);
+    const eqNode = audioContext.createBiquadFilter();
+    eqNode.frequency.value = 8000;
+    eqNode.type = "peaking";
+    eqNode.Q.value = 2;
+
+    audioSource
+      .connect(gainNode)
+      .connect(eqNode)
+      .connect(audioContext.destination);
 
     set({
       audioContext,
       audioSource,
       gainNode,
+      eqNode,
       initialized: true,
     });
   },
@@ -96,6 +115,22 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     if (!gainNode) return;
 
     gainNode.gain.value = gain;
+  },
+
+  setTinFreq: (khz) => {
+    const { eqNode } = get();
+    if (!eqNode) return;
+
+    eqNode.frequency.value = khz;
+    set({ tinFreq: khz });
+  },
+
+  setTinReduce: (gain) => {
+    const { eqNode } = get();
+    if (!eqNode) return;
+
+    eqNode.gain.value = gain * -1;
+    set({ tinReduce: gain });
   },
 }));
 

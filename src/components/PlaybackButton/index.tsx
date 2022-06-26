@@ -3,11 +3,11 @@ import styled from "@emotion/styled";
 
 export const PlaybackButton = styled("button")`
   display: block;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 100px;
   appearance: none;
   border: none;
-  border-radius: 50%;
+  border-radius: ${borderRadius};
   background: #666;
   cursor: pointer;
 
