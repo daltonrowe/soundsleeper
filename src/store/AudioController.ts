@@ -47,7 +47,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   },
   fetchSrc: async (url) => {
     const { audioContext, audioSource } = get();
-    if (!audioContext || !audioSource) return;
+    if (!audioContext || !audioSource || audioSource.buffer) return;
 
     const response = await fetch(url);
     const arrayBuffer = await response.arrayBuffer();
