@@ -1,0 +1,5 @@
+<svg id="pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 82">
+  <title>pause</title>
+  <rect id="right" width="23" height="82" rx="2.82" fill="#eee"/>
+  <rect id="left" x="31" width="23" height="82" rx="2.82" fill="#eee"/>
+</svg>

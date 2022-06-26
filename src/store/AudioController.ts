@@ -1,4 +1,5 @@
 import create from "zustand";
+import { initialTinFreq, initialTinQ, initialTinReduce } from "./constants";
 
 export enum AudioState {
   NOTSTARTED = "NOTSTARTED",
@@ -38,9 +39,9 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   eqNode: null,
   audioSource: null,
   audioSourceData: null,
-  tinFreq: 8000,
-  tinReduce: 0,
-  tinQ: 4,
+  tinFreq: initialTinFreq,
+  tinReduce: initialTinReduce,
+  tinQ: initialTinQ,
 
   init: () => {
     const prevAudioContext = get().audioContext;
@@ -55,8 +56,9 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
     const eqNode = audioContext.createBiquadFilter();
     eqNode.type = "peaking";
-    eqNode.frequency.value = 8000;
-    eqNode.Q.value = 4;
+    eqNode.frequency.value = initialTinFreq;
+    eqNode.gain.value = initialTinReduce * -1;
+    eqNode.Q.value = initialTinQ;
 
     audioSource
       .connect(gainNode)
@@ -140,7 +142,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     const { eqNode } = get();
     if (!eqNode) return;
 
-    eqNode.Q.value = 6 - q;
+    eqNode.Q.value = 10 - q;
     set({ tinQ: q });
   },
 }));

@@ -23,7 +23,7 @@ const LabelGroup = styled("div")`
   }
 `;
 
-function ControlPanel() {
+function EqControls() {
   const initialized = useAudioController((state) => state.initialized);
   const setVolume = useAudioController((state) => state.setVolume);
   const setTinFreq = useAudioController((state) => state.setTinFreq);
@@ -98,7 +98,7 @@ function ControlPanel() {
         <input
           id="TinEqReduce"
           type="range"
-          defaultValue={0}
+          defaultValue={16}
           min={0}
           max={20}
           step={0.2}
@@ -113,8 +113,8 @@ function ControlPanel() {
           type="range"
           defaultValue={4}
           min={0}
-          max={100}
-          step={5}
+          max={9.8}
+          step={0.2}
           onChange={onSetTinQ}
         ></input>
       </LabelGroup>
@@ -122,4 +122,4 @@ function ControlPanel() {
   );
 }
 
-export default ControlPanel;
+export default EqControls;

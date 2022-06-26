@@ -1,8 +1,10 @@
-import { borderRadius } from "@/constants";
+import { borderRadius } from "@/store/constants";
 import styled from "@emotion/styled";
 
 export const PlaybackButton = styled("button")`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 100px;
   appearance: none;
@@ -17,5 +19,10 @@ export const PlaybackButton = styled("button")`
 
   &:active {
     background: #555;
+  }
+
+  img {
+    height: 40%;
+    width: auto;
   }
 `;
