@@ -3,50 +3,55 @@ import create from 'zustand'
 interface AudioControllerState {
   audioRef: HTMLAudioElement | null;
   audioContext: AudioContext | null;
-  track: MediaElementAudioSourceNode | null;
   gainNode: GainNode | null;
-  init: (audioRef: HTMLAudioElement) => void;
-  setSrc: (url: string) => void;
+  audioSource: AudioBufferSourceNode | null;
+
+  init: () => void;
+  fetchSrc: (url: string) => void;
   play: () => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
   audioRef: null,
   audioContext: null,
-  track: null,
   gainNode: null,
+  audioSource: null,
 
-  init: (audioRef) => set((state) => {
+  init: () => set((state) => {
     if (state.audioContext) return {}; // context has already been created
 
     const audioContext = new AudioContext(); 
-    const track = audioContext.createMediaElementSource(audioRef)
+    const audioSource = audioContext.createBufferSource();
+    audioSource.loop = true
     const gainNode = audioContext.createGain();
 
-    track
+    audioSource
     .connect(gainNode)
     .connect(audioContext.destination)
 
     return {
       audioContext,
-      audioRef,
-      track,
+      audioSource,
       gainNode
     }
   }),
 
-  setSrc: (url) => {
-    const audioRef = get().audioRef;
-    if (!audioRef) return;
+  fetchSrc: async (url) => {
+    const audioContext = get().audioContext;
+    const audioSource = get().audioSource;
+    if (!audioContext || !audioSource) return;
 
-    audioRef.src = url;
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    audioSource.buffer = audioBuffer
   },
 
   play: () => {
-    const audioRef = get().audioRef;
-    if (!audioRef) return;
+    const audioSource = get().audioSource;
+    if (!audioSource) return
 
-    audioRef.play()
+    audioSource.start()
   }
 }))
 

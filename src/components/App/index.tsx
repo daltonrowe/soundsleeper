@@ -7,15 +7,15 @@ import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
 function App() {
   const audioElement = useRef(null);
   const init = useAudioController((state) => state.init);
-  const setSrc = useAudioController((state) => state.setSrc);
+  const fetchSrc = useAudioController((state) => state.fetchSrc);
   const play = useAudioController((state) => state.play);
 
   const onStart = () => {
-    if (audioElement.current) init(audioElement.current);
+    init();
   };
 
-  const onSetSrc = () => {
-    setSrc(whiteNoiseUrl);
+  const onFetchSrc = () => {
+    fetchSrc(whiteNoiseUrl);
   };
 
   const onPlay = () => {
@@ -27,9 +27,8 @@ function App() {
       <div className="App">
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={onStart}>Init</button>
-        <button onClick={onSetSrc}>White Noise</button>
+        <button onClick={onFetchSrc}>White Noise</button>
         <button onClick={onPlay}>Play</button>
-        <audio ref={audioElement} loop={true}></audio>
       </div>
     </GlobalStyles>
   );
