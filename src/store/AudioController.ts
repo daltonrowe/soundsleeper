@@ -17,6 +17,7 @@ interface AudioControllerState {
   eqNode: BiquadFilterNode | null;
   tinFreq: number;
   tinReduce: number;
+  tinQ: number;
 
   init: () => void;
   fetchSrc: (url: string) => void;
@@ -25,6 +26,7 @@ interface AudioControllerState {
   setVolume: (gain: number) => void;
   setTinFreq: (khz: number) => void;
   setTinReduce: (gain: number) => void;
+  setTinQ: (q: number) => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
@@ -38,6 +40,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   audioSourceData: null,
   tinFreq: 8000,
   tinReduce: 0,
+  tinQ: 4,
 
   init: () => {
     const prevAudioContext = get().audioContext;
@@ -51,9 +54,9 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     const gainNode = audioContext.createGain();
 
     const eqNode = audioContext.createBiquadFilter();
-    eqNode.frequency.value = 8000;
     eqNode.type = "peaking";
-    eqNode.Q.value = 2;
+    eqNode.frequency.value = 8000;
+    eqNode.Q.value = 4;
 
     audioSource
       .connect(gainNode)
@@ -131,6 +134,14 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
     eqNode.gain.value = gain * -1;
     set({ tinReduce: gain });
+  },
+
+  setTinQ: (q) => {
+    const { eqNode } = get();
+    if (!eqNode) return;
+
+    eqNode.Q.value = 6 - q;
+    set({ tinQ: q });
   },
 }));
 
