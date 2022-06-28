@@ -47,6 +47,8 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     const prevAudioContext = get().audioContext;
     if (prevAudioContext) return; // context has already been created
 
+    // @ts-ignore
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioContext = new AudioContext();
 
     const audioSource = audioContext.createBufferSource();
