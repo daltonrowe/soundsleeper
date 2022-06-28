@@ -1,5 +1,10 @@
 import create from "zustand";
-import { initialTinFreq, initialTinQ, initialTinReduce } from "./constants";
+import {
+  initialGain,
+  initialTinFreq,
+  initialTinQ,
+  initialTinReduce,
+} from "./constants";
 
 export enum AudioState {
   NOTSTARTED = "NOTSTARTED",
@@ -15,6 +20,7 @@ interface AudioControllerState {
   audioSource: AudioBufferSourceNode | null;
   audioSourceData: AudioBuffer | null;
   gainNode: GainNode | null;
+  gain: number;
   eqNode: BiquadFilterNode | null;
   tinFreq: number;
   tinReduce: number;
@@ -39,12 +45,14 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   eqNode: null,
   audioSource: null,
   audioSourceData: null,
+  gain: initialGain,
   tinFreq: initialTinFreq,
   tinReduce: initialTinReduce,
   tinQ: initialTinQ,
 
   init: () => {
     const prevAudioContext = get().audioContext;
+    const { gain, tinFreq, tinReduce, tinQ } = get();
     if (prevAudioContext) return; // context has already been created
 
     // @ts-ignore
@@ -55,12 +63,13 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     audioSource.loop = true;
 
     const gainNode = audioContext.createGain();
+    gainNode.gain.value = gain;
 
     const eqNode = audioContext.createBiquadFilter();
     eqNode.type = "peaking";
-    eqNode.frequency.value = initialTinFreq;
-    eqNode.gain.value = initialTinReduce * -1;
-    eqNode.Q.value = initialTinQ;
+    eqNode.frequency.value = tinFreq;
+    eqNode.gain.value = tinReduce * -1;
+    eqNode.Q.value = tinQ;
 
     audioSource
       .connect(gainNode)
@@ -119,33 +128,34 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
   setVolume: (gain) => {
     const { gainNode } = get();
-    if (!gainNode) return;
+    set({ gain });
 
+    if (!gainNode) return;
     gainNode.gain.value = gain;
   },
 
   setTinFreq: (khz) => {
     const { eqNode } = get();
-    if (!eqNode) return;
-
-    eqNode.frequency.value = khz;
     set({ tinFreq: khz });
+
+    if (!eqNode) return;
+    eqNode.frequency.value = khz;
   },
 
   setTinReduce: (gain) => {
     const { eqNode } = get();
-    if (!eqNode) return;
-
-    eqNode.gain.value = gain * -1;
     set({ tinReduce: gain });
+
+    if (!eqNode) return;
+    eqNode.gain.value = gain * -1;
   },
 
   setTinQ: (q) => {
     const { eqNode } = get();
-    if (!eqNode) return;
-
-    eqNode.Q.value = 10 - q;
     set({ tinQ: q });
+
+    if (!eqNode) return;
+    eqNode.Q.value = 10 - q;
   },
 }));
 

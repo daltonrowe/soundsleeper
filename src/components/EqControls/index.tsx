@@ -2,9 +2,7 @@ import useAudioController from "@/store/AudioController";
 import styled from "@emotion/styled";
 import { ChangeEvent, ChangeEventHandler } from "react";
 
-const Wrapper = styled("div")<{ disabled: boolean }>`
-  pointer-events: ${(props) => (props.disabled ? "none" : "initial")};
-  opacity: ${(props) => (props.disabled ? 0.2 : 1)};
+const Wrapper = styled("div")`
   margin-top: 40px;
 `;
 
@@ -24,11 +22,11 @@ const LabelGroup = styled("div")`
 `;
 
 function EqControls() {
-  const initialized = useAudioController((state) => state.initialized);
   const setVolume = useAudioController((state) => state.setVolume);
   const setTinFreq = useAudioController((state) => state.setTinFreq);
   const setTinReduce = useAudioController((state) => state.setTinReduce);
   const setTinQ = useAudioController((state) => state.setTinQ);
+  const gain = useAudioController((state) => state.gain);
   const tinFreq = useAudioController((state) => state.tinFreq);
   const tinReduce = useAudioController((state) => state.tinReduce);
 
@@ -52,6 +50,10 @@ function EqControls() {
     setTinQ(parseInt(value));
   };
 
+  const gainPerc = () => {
+    return gain * 100;
+  };
+
   const tinFreqNormalized = () => {
     return tinFreq / 1000;
   };
@@ -62,9 +64,9 @@ function EqControls() {
   };
 
   return (
-    <Wrapper disabled={!initialized}>
+    <Wrapper>
       <LabelGroup>
-        <label htmlFor="masterVolume">Volume</label>
+        <label htmlFor="masterVolume">Volume ({`${gainPerc()}%`})</label>
         <input
           id="masterVolume"
           type="range"
