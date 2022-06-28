@@ -3,7 +3,12 @@ import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
 import playIcon from "@/assets/img/play.svg";
 import pauseIcon from "@/assets/img/pause.svg";
 
-import { borderRadius } from "@/store/constants";
+import {
+  borderRadius,
+  greyActiveBg,
+  greyBg,
+  greyHoverBg,
+} from "@/store/constants";
 import styled from "@emotion/styled";
 
 export const PlaybackButton = styled("button")`
@@ -15,15 +20,15 @@ export const PlaybackButton = styled("button")`
   appearance: none;
   border: none;
   border-radius: ${borderRadius};
-  background: #666;
+  background: ${greyBg};
   cursor: pointer;
 
   &:hover {
-    background: #777;
+    background: ${greyHoverBg};
   }
 
   &:active {
-    background: #555;
+    background: ${greyActiveBg};
   }
 
   img {

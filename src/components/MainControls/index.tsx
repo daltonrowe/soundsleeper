@@ -1,11 +1,33 @@
 import useAudioController from "@/store/AudioController";
+import {
+  borderRadius,
+  greyActiveBg,
+  greyBg,
+  greyHoverBg,
+} from "@/store/constants";
 import styled from "@emotion/styled";
 import { ChangeEvent } from "react";
+import Label from "../Label";
 import LabelGroup from "../LabelGroup";
 import SectionWrapper from "../SectionWrapper";
 
 const StyledSelect = styled("select")`
   padding: 10px;
+  appearance: none;
+  background: transparent;
+  color: white;
+  border: 2px solid #666;
+  border-radius: ${borderRadius};
+  border: 2px solid ${greyBg};
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid ${greyHoverBg};
+  }
+
+  &:active {
+    border: 2px solid ${greyActiveBg};
+  }
 `;
 
 function MainControls() {
@@ -24,14 +46,14 @@ function MainControls() {
   return (
     <SectionWrapper>
       <LabelGroup>
-        <label htmlFor="soundSelect">Sounds</label>
+        <Label htmlFor="soundSelect">Track</Label>
         <StyledSelect name="soundSelect" id="soundSelect">
           <option value="white-noise">White Noise</option>
         </StyledSelect>
       </LabelGroup>
 
       <LabelGroup>
-        <label htmlFor="masterVolume">Volume ({`${gainPerc()}%`})</label>
+        <Label htmlFor="masterVolume">Volume ({`${gainPerc()}%`})</Label>
         <input
           id="masterVolume"
           type="range"
