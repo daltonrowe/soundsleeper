@@ -1,39 +1,15 @@
 import useAudioController from "@/store/AudioController";
 import styled from "@emotion/styled";
-import { ChangeEvent, ChangeEventHandler } from "react";
-
-const Wrapper = styled("div")`
-  margin-top: 40px;
-`;
-
-const LabelGroup = styled("div")`
-  display: flex;
-  width: 200px;
-  flex-direction: column;
-  color: white;
-
-  label {
-    font-size: 12px;
-  }
-
-  &:not(:last-of-type) {
-    margin-bottom: 30px;
-  }
-`;
+import { ChangeEvent } from "react";
+import LabelGroup from "../LabelGroup";
+import SectionWrapper from "../SectionWrapper";
 
 function EqControls() {
-  const setVolume = useAudioController((state) => state.setVolume);
   const setTinFreq = useAudioController((state) => state.setTinFreq);
   const setTinReduce = useAudioController((state) => state.setTinReduce);
   const setTinQ = useAudioController((state) => state.setTinQ);
-  const gain = useAudioController((state) => state.gain);
   const tinFreq = useAudioController((state) => state.tinFreq);
   const tinReduce = useAudioController((state) => state.tinReduce);
-
-  const onSetVolume = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setVolume(parseFloat(value));
-  };
 
   const onSetTinFreq = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -50,10 +26,6 @@ function EqControls() {
     setTinQ(parseInt(value));
   };
 
-  const gainPerc = () => {
-    return gain * 100;
-  };
-
   const tinFreqNormalized = () => {
     return tinFreq / 1000;
   };
@@ -64,20 +36,7 @@ function EqControls() {
   };
 
   return (
-    <Wrapper>
-      <LabelGroup>
-        <label htmlFor="masterVolume">Volume ({`${gainPerc()}%`})</label>
-        <input
-          id="masterVolume"
-          type="range"
-          min={0}
-          max={1}
-          defaultValue={1}
-          step={0.1}
-          onChange={onSetVolume}
-        ></input>
-      </LabelGroup>
-
+    <SectionWrapper>
       <LabelGroup>
         <label htmlFor="tinEqRange">
           Tinnitus Frequency Band ({`${tinFreqNormalized()}kHz`})
@@ -120,7 +79,7 @@ function EqControls() {
           onChange={onSetTinQ}
         ></input>
       </LabelGroup>
-    </Wrapper>
+    </SectionWrapper>
   );
 }
 
