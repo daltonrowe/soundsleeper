@@ -10,25 +10,23 @@ const EqWrapper = styled("div")`
   border-radius: ${borderRadius};
 `;
 
-const EqBar = styled("div")<{ height: number }>`
+const EqBar = styled("div")`
   position: relative;
   flex: 1 1 auto;
   height: 100%;
   background-color: #222;
 
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: ${(props) => props.height * 100}%;
-    background-color: #444;
-  }
-
   &:not(:last-of-type) {
     margin-right: 1px;
   }
+`;
+
+const EqBarInner = styled("div")`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #444;
 `;
 
 interface EqVisualizerProps {
@@ -56,7 +54,9 @@ function EqVisualizer(props: EqVisualizerProps) {
   return (
     <EqWrapper>
       {[...Array(22).keys()].map((key) => (
-        <EqBar key={`eq-bar-${key}`} height={calcHeight(key)}></EqBar>
+        <EqBar key={`eq-bar-${key}`}>
+          <EqBarInner style={{ height: `${100 * calcHeight(key)}%` }} />
+        </EqBar>
       ))}
     </EqWrapper>
   );
