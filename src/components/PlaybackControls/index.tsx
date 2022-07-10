@@ -3,7 +3,7 @@ import useAudioController, { AudioState } from "@/store/AudioController";
 import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
 import playIcon from "@/assets/img/play.svg";
 import pauseIcon from "@/assets/img/pause.svg";
-import silenceUrl from "@/assets/audio/silence.wav";
+import silenceUrl from "@/assets/audio/silence.mp3";
 import mediasessionImage from "@/assets/img/mediasession.png";
 
 import { appWidth, borderRadius, greyBg, greyHoverBg } from "@/store/constants";
