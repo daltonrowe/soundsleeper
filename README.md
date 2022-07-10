@@ -3,6 +3,15 @@
 # Soundsleeper
 
 Seamless looper for sleep sounds
+
+Technical Features:
+- Perfect looping with Web Audio API
+- Play sound in silent mode with hidden audio element
+- Eq visualizer for tinnitus frequency reduction
+- Settings persistance via local storage
+- Opengraph meta for sharing
+- TODO: Mediasession API support
+- TODO: PWA offline support
 ### Resources:
 
 - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
