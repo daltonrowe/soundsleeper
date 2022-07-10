@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import useAudioController, { AudioState } from "@/store/AudioController";
 import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
 import playIcon from "@/assets/img/play.svg";
 import pauseIcon from "@/assets/img/pause.svg";
 import silenceUrl from "@/assets/audio/silence.wav";
+import mediasessionImage from "@/assets/img/mediasession.png";
 
 import { appWidth, borderRadius, greyBg, greyHoverBg } from "@/store/constants";
 import styled from "@emotion/styled";
@@ -61,6 +62,26 @@ function PlaybackControls() {
 
     !isPlaying ? play() : stop();
   };
+
+  useEffect(() => {
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Soundsleeper",
+        artist: "",
+        album: "",
+        artwork: [
+          {
+            src: mediasessionImage,
+            sizes: "627x627",
+            type: "image/png",
+          },
+        ],
+      });
+
+      navigator.mediaSession.setActionHandler("play", () => play());
+      navigator.mediaSession.setActionHandler("pause", () => stop());
+    }
+  }, [play, stop]);
 
   return (
     <>
