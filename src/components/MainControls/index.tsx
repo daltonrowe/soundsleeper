@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { ChangeEvent } from "react";
 import Label from "../Label";
 import LabelGroup from "../LabelGroup";
+import { RangeSlider } from "../RangeSlider";
 import SectionWrapper from "../SectionWrapper";
 
 const StyledSelect = styled("select")`
@@ -54,7 +55,7 @@ function MainControls() {
 
       <LabelGroup>
         <Label htmlFor="masterVolume">Volume ({`${gainPerc()}%`})</Label>
-        <input
+        <RangeSlider
           id="masterVolume"
           type="range"
           min={0}
@@ -62,7 +63,7 @@ function MainControls() {
           defaultValue={1}
           step={0.1}
           onChange={onSetVolume}
-        ></input>
+        ></RangeSlider>
       </LabelGroup>
     </SectionWrapper>
   );

@@ -30,7 +30,8 @@ export const PlaybackButton = styled("button")`
   }
 
   &:active {
-    background: ${greyActiveBg};
+    /* no bg for better touch appearance */
+    background: ${greyBg};
   }
 
   img {
@@ -39,6 +40,7 @@ export const PlaybackButton = styled("button")`
   }
 `;
 
+// hidden audio element allows play in silent mode
 const HiddenAudio = styled("audio")`
   display: none;
 `;
