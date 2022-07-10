@@ -12,5 +12,5 @@ Seamless looper for sleep sounds
 - https://github.com/pmndrs/zustand/blob/main/docs/typescript.md
 
 <div style="text-align:center">
-![Screenshot](https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true)
+  <img src="https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true" alt="Soundsleeper Screenshot" />
 </div>
