@@ -108,12 +108,10 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     switch (audioState) {
       case AudioState.NOTSTARTED:
         audioSource.start();
-        if (audioRef) audioRef.pause();
         break;
 
       case AudioState.STOPPED:
         audioSource.connect(gainNode);
-        if (audioRef) audioRef.play();
         break;
 
       default:
@@ -121,14 +119,17 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
         break;
     }
 
+    if (audioRef) audioRef.play();
     set({ audioState: AudioState.PLAYING });
   },
 
   stop: () => {
-    const { audioSource } = get();
+    const { audioSource, audioRef } = get();
     if (!audioSource) return;
 
     audioSource.disconnect();
+
+    if (audioRef) audioRef.pause();
     set({ audioState: AudioState.STOPPED });
   },
 
