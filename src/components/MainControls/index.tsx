@@ -60,7 +60,7 @@ function MainControls() {
           type="range"
           min={0}
           max={1}
-          defaultValue={gain}
+          value={gain}
           step={0.1}
           onChange={onSetVolume}
         ></RangeSlider>

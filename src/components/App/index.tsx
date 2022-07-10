@@ -6,8 +6,17 @@ import PlaybackControls from "@/components/PlaybackControls";
 import MainControls from "../MainControls";
 import Accordian from "../Accordian";
 import SectionWrapper from "../SectionWrapper";
+import { useEffect } from "react";
+import useAudioController from "@/store/AudioController";
 
 function App() {
+  const loadFromLocalStorage = useAudioController(
+    (state) => state.loadFromLocalStorage
+  );
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, []);
+
   return (
     <AppLayout>
       <AppLayoutInner>

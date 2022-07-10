@@ -49,7 +49,7 @@ function EqControls() {
         <RangeSlider
           id="tinEqRange"
           type="range"
-          defaultValue={tinFreq}
+          value={tinFreq}
           min={1000}
           max={22000}
           step={1000}
@@ -64,7 +64,7 @@ function EqControls() {
         <RangeSlider
           id="TinEqReduce"
           type="range"
-          defaultValue={tinReduce}
+          value={tinReduce}
           min={0.2}
           max={20}
           step={0.2}
@@ -77,7 +77,7 @@ function EqControls() {
         <RangeSlider
           id="TinQ"
           type="range"
-          defaultValue={tinQ}
+          value={tinQ}
           min={1}
           max={9.8}
           step={0.2}

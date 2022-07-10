@@ -25,6 +25,7 @@ interface AudioControllerState {
   tinFreq: number;
   tinReduce: number;
   tinQ: number;
+  saveTimer: ReturnType<typeof setTimeout> | null;
 
   init: (audioRef: HTMLAudioElement | null) => void;
   fetchSrc: (url: string) => void;
@@ -34,6 +35,9 @@ interface AudioControllerState {
   setTinFreq: (khz: number) => void;
   setTinReduce: (gain: number) => void;
   setTinQ: (q: number) => void;
+  saveToLocalStorage: () => void;
+  loadFromLocalStorage: () => void;
+  triggerSave: () => void;
 }
 
 const useAudioController = create<AudioControllerState>()((set, get) => ({
@@ -49,6 +53,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   tinFreq: initialTinFreq,
   tinReduce: initialTinReduce,
   tinQ: initialTinQ,
+  saveTimer: null,
 
   init: (audioRef: HTMLAudioElement | null) => {
     const prevAudioContext = get().audioContext;
@@ -133,35 +138,84 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   },
 
   setVolume: (gain) => {
-    const { gainNode } = get();
+    const { gainNode, triggerSave } = get();
     set({ gain });
+    triggerSave();
 
     if (!gainNode) return;
     gainNode.gain.value = gain;
   },
 
   setTinFreq: (khz) => {
-    const { eqNode } = get();
+    const { eqNode, triggerSave } = get();
     set({ tinFreq: khz });
+    triggerSave();
 
     if (!eqNode) return;
     eqNode.frequency.value = khz;
   },
 
   setTinReduce: (gain) => {
-    const { eqNode } = get();
+    const { eqNode, triggerSave } = get();
     set({ tinReduce: gain });
+    triggerSave();
 
     if (!eqNode) return;
     eqNode.gain.value = gain * -1;
   },
 
   setTinQ: (q) => {
-    const { eqNode } = get();
+    const { eqNode, triggerSave } = get();
     set({ tinQ: q });
+    triggerSave();
 
     if (!eqNode) return;
     eqNode.Q.value = 10 - q;
+  },
+
+  saveToLocalStorage: () => {
+    const { gain, tinFreq, tinReduce, tinQ } = get();
+
+    const dataToSave = {
+      gain,
+      tinFreq,
+      tinReduce,
+      tinQ,
+    };
+
+    window.localStorage.setItem(
+      "soundsleeper_settings",
+      JSON.stringify(dataToSave)
+    );
+  },
+
+  loadFromLocalStorage: () => {
+    const { setVolume, setTinFreq, setTinReduce, setTinQ } = get();
+
+    const rawDataToLoad = window.localStorage.getItem("soundsleeper_settings");
+    if (!rawDataToLoad) return;
+
+    try {
+      const dataToLoad = JSON.parse(rawDataToLoad);
+      setVolume(dataToLoad.gain);
+      setTinFreq(dataToLoad.tinFreq);
+      setTinReduce(dataToLoad.tinReduce);
+      setTinQ(dataToLoad.tinQ);
+    } catch (err) {
+      console.error("Error loading settings");
+      window.localStorage.setItem("soundsleeper_settings", JSON.stringify({}));
+    }
+  },
+
+  triggerSave: () => {
+    let { saveTimer, saveToLocalStorage } = get();
+    if (saveTimer) clearTimeout(saveTimer);
+
+    set({
+      saveTimer: setTimeout(() => {
+        saveToLocalStorage();
+      }, 500),
+    });
   },
 }));
 
