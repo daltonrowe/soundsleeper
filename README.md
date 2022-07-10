@@ -1,4 +1,4 @@
-![Opengraph Image](https://raw.githubusercontent.com/daltonrowe/soundsleeper/6cc59caa6fa62d2d7ecaa71ae33ade22743b7989/src/assets/img/opengraph.png)
+![Opengraph Image](https://github.com/daltonrowe/soundsleeper/blob/master/src/assets/img/opengraph.png?raw=true)
 
 # Soundsleeper
 
@@ -11,4 +11,4 @@ Seamless looper for sleep sounds
 - https://jackyef.com/posts/building-an-audio-loop-player-on-the-web - Ended up unintentionally reinventing this haha.
 - https://github.com/pmndrs/zustand/blob/main/docs/typescript.md
 
-![Screenshot](https://raw.githubusercontent.com/daltonrowe/soundsleeper/6cc59caa6fa62d2d7ecaa71ae33ade22743b7989/src/assets/img/screenshot.png)
+![Screenshot](https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true)
