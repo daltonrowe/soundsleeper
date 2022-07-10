@@ -11,4 +11,6 @@ Seamless looper for sleep sounds
 - https://jackyef.com/posts/building-an-audio-loop-player-on-the-web - Ended up unintentionally reinventing this haha.
 - https://github.com/pmndrs/zustand/blob/main/docs/typescript.md
 
+<div style="text-align:center">
 ![Screenshot](https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true)
+</div>
