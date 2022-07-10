@@ -78,10 +78,22 @@ function PlaybackControls() {
         ],
       });
 
-      navigator.mediaSession.setActionHandler("play", () => play());
-      navigator.mediaSession.setActionHandler("pause", () => stop());
+      navigator.mediaSession.setActionHandler("play", play);
+      navigator.mediaSession.setActionHandler("pause", stop);
     }
   }, [play, stop]);
+
+  useEffect(() => {
+    if ("mediaSession" in navigator) {
+      if (audioState === AudioState.PLAYING) {
+        navigator.mediaSession.playbackState = "playing";
+        hiddenAudioRef.current?.play();
+      } else {
+        navigator.mediaSession.playbackState = "paused";
+        hiddenAudioRef.current?.pause();
+      }
+    }
+  }, [audioState]);
 
   return (
     <>
