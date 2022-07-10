@@ -11,7 +11,7 @@ export const RangeSlider = styled("input")`
 
   &::-webkit-slider-thumb {
     background: ${accent};
-    width: 20px;
+    width: 30px;
     height: 30px;
     appearance: none;
     box-shadow: none;
