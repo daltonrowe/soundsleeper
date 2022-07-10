@@ -65,7 +65,7 @@ function EqControls() {
           id="TinEqReduce"
           type="range"
           value={tinReduce}
-          min={0.2}
+          min={0}
           max={20}
           step={0.2}
           onChange={onSetTinReduce}
@@ -78,8 +78,8 @@ function EqControls() {
           id="TinQ"
           type="range"
           value={tinQ}
-          min={1}
-          max={9.8}
+          min={0}
+          max={10}
           step={0.2}
           onChange={onSetTinQ}
         ></RangeSlider>

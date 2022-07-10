@@ -42,9 +42,13 @@ function EqVisualizer(props: EqVisualizerProps) {
 
   // this math is suspect at best
   const calcHeight = (index: number): number => {
+    if (reduce === 0) return 1;
+    let adjustedQ = q;
+    if (q === 0) adjustedQ = 0.001;
+
     const percReduce = 1 - reduce / 20;
     const freqBand = index * 1000 + 1000;
-    const distance = Math.abs(freq - freqBand) / (2000 * q);
+    const distance = Math.abs(freq - freqBand) / (2000 * adjustedQ);
     const bandReduce = 1 * distance + percReduce;
     return bandReduce;
   };
