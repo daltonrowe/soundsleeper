@@ -9,3 +9,7 @@ export const AppLayout = styled("div")`
   align-items: center;
   background-image: linear-gradient(to top left, #333, #111);
 `;
+
+export const AppLayoutInner = styled("div")`
+  padding-bottom: 40px;
+`;
