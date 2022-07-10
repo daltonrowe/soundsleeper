@@ -5,6 +5,7 @@ import {
   initialTinQ,
   initialTinReduce,
 } from "./constants";
+import mediasessionImage from "@/assets/img/mediasession.png";
 
 export enum AudioState {
   NOTSTARTED = "NOTSTARTED",
@@ -57,7 +58,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
   init: (audioRef: HTMLAudioElement | null) => {
     const prevAudioContext = get().audioContext;
-    const { gain, tinFreq, tinReduce, tinQ } = get();
+    const { gain, tinFreq, tinReduce, tinQ, play, stop, audioState } = get();
     if (prevAudioContext) return; // context has already been created
 
     // @ts-ignore
@@ -91,10 +92,28 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       eqNode,
       initialized: true,
     });
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Soundsleeper",
+        artist: "",
+        album: "",
+        artwork: [
+          {
+            src: mediasessionImage,
+            sizes: "627x627",
+            type: "image/png",
+          },
+        ],
+      });
+
+      navigator.mediaSession.setActionHandler("play", () => play());
+      navigator.mediaSession.setActionHandler("pause", () => stop());
+    }
   },
 
   fetchSrc: async (url) => {
-    const { audioContext, audioSource } = get();
+    const { audioContext, audioSource, audioRef } = get();
     if (!audioContext || !audioSource || audioSource.buffer) return;
 
     const response = await fetch(url);
@@ -123,8 +142,12 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
         break;
     }
 
-    if (audioRef) audioRef.play();
     set({ audioState: AudioState.PLAYING });
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playbackState = "playing";
+    }
+    if (audioRef) audioRef.play();
   },
 
   stop: () => {
@@ -133,8 +156,12 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
 
     audioSource.disconnect();
 
-    if (audioRef) audioRef.pause();
     set({ audioState: AudioState.STOPPED });
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.playbackState = "paused";
+    }
+    if (audioRef) audioRef.pause();
   },
 
   setVolume: (gain) => {
