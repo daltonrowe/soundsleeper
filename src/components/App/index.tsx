@@ -13,6 +13,7 @@ function App() {
   const loadFromLocalStorage = useAudioController(
     (state) => state.loadFromLocalStorage
   );
+
   useEffect(() => {
     loadFromLocalStorage();
   }, []);

@@ -201,6 +201,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       setTinFreq(dataToLoad.tinFreq);
       setTinReduce(dataToLoad.tinReduce);
       setTinQ(dataToLoad.tinQ);
+      console.log("settings loaded!");
     } catch (err) {
       console.error("Error loading settings");
       window.localStorage.setItem("soundsleeper_settings", JSON.stringify({}));
