@@ -8,8 +8,9 @@ Seamless looper for sleep sounds
 - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API
 - https://github.com/mdn/webaudio-examples/blob/master/audio-basics/index.html
-- https://jackyef.com/posts/building-an-audio-loop-player-on-the-web - Ended up unintentionally reinventing this haha.
+- https://jackyef.com/posts/building-an-audio-loop-player-on-the-web - Ended up unintentionally reinventing this.
 - https://github.com/pmndrs/zustand/blob/main/docs/typescript.md
 
-
-<img src="https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true" alt="Soundsleeper Screenshot" style="margin:0 auto;" />
+<p align="center">
+  <img src="https://github.com/daltonrowe/soundsleeper/blob/master/screenshot.png?raw=true" alt="Soundsleeper Screenshot" />
+</p>
