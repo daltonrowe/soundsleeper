@@ -10,7 +10,7 @@ Technical Features:
 - Eq visualizer for tinnitus frequency reduction
 - Settings persistance via local storage
 - Opengraph meta for sharing
-- TODO: Mediasession API support
+- Mediasession API support
 - TODO: PWA offline support
 ### Resources:
 
