@@ -5,19 +5,14 @@ import playIcon from "@/assets/img/play.svg";
 import pauseIcon from "@/assets/img/pause.svg";
 import silenceUrl from "@/assets/audio/silence.wav";
 
-import {
-  appWidth,
-  borderRadius,
-  greyActiveBg,
-  greyBg,
-  greyHoverBg,
-} from "@/store/constants";
+import { appWidth, borderRadius, greyBg, greyHoverBg } from "@/store/constants";
 import styled from "@emotion/styled";
 
 export const PlaybackButton = styled("button")`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 0 0 100px;
   width: ${appWidth}px;
   height: 100px;
   appearance: none;
