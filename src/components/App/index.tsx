@@ -4,6 +4,8 @@ import { AppLayout } from "@/components/AppLayout";
 import EqControls from "@/components/EqControls";
 import PlaybackControls from "@/components/PlaybackControls";
 import MainControls from "../MainControls";
+import Accordian from "../Accordian";
+import SectionWrapper from "../SectionWrapper";
 
 function App() {
   return (
@@ -11,7 +13,11 @@ function App() {
       <Logo src={logo} alt="SoundSleeper" />
       <PlaybackControls />
       <MainControls />
-      <EqControls />
+      <SectionWrapper>
+        <Accordian title="Tinnitus EQ">
+          <EqControls />
+        </Accordian>
+      </SectionWrapper>
     </AppLayout>
   );
 }

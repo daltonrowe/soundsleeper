@@ -37,7 +37,7 @@ function EqControls() {
   };
 
   return (
-    <SectionWrapper>
+    <>
       <LabelGroup>
         <Label htmlFor="tinEqRange">
           Tinnitus Frequency Band ({`${tinFreqNormalized()}kHz`})
@@ -80,7 +80,7 @@ function EqControls() {
           onChange={onSetTinQ}
         ></RangeSlider>
       </LabelGroup>
-    </SectionWrapper>
+    </>
   );
 }
 

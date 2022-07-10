@@ -6,6 +6,7 @@ import pauseIcon from "@/assets/img/pause.svg";
 import silenceUrl from "@/assets/audio/silence.wav";
 
 import {
+  appWidth,
   borderRadius,
   greyActiveBg,
   greyBg,
@@ -17,7 +18,7 @@ export const PlaybackButton = styled("button")`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: ${appWidth}px;
   height: 100px;
   appearance: none;
   border: none;
