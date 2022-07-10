@@ -11,7 +11,7 @@ Technical Features:
 - Settings persistance via local storage
 - Opengraph meta for sharing
 - Mediasession API support
-- TODO: PWA offline support
+- PWA offline support
 ### Resources:
 
 - https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
