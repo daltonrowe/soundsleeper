@@ -18,7 +18,7 @@ const AccordianTitle = styled("span")<{ $open: boolean }>`
   color: white;
   cursor: pointer;
   padding: 10px 0;
-  margin-bottom: ${(props) => (props.$open ? "20" : "0")}px;
+  margin-bottom: ${(props) => (props.$open ? "10" : "0")}px;
 
   &:hover {
     &:after {

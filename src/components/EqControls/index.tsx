@@ -1,5 +1,6 @@
 import useAudioController from "@/store/AudioController";
 import { ChangeEvent } from "react";
+import EqVisualizer from "../EqVisualizer";
 import Label from "../Label";
 import LabelGroup from "../LabelGroup";
 import { RangeSlider } from "../RangeSlider";
@@ -39,6 +40,8 @@ function EqControls() {
 
   return (
     <>
+      <EqVisualizer freq={tinFreq} reduce={tinReduce} q={tinQ} />
+
       <LabelGroup>
         <Label htmlFor="tinEqRange">
           Tinnitus Frequency Band ({`${tinFreqNormalized()}kHz`})
@@ -47,7 +50,7 @@ function EqControls() {
           id="tinEqRange"
           type="range"
           defaultValue={tinFreq}
-          min={0}
+          min={1000}
           max={22000}
           step={1000}
           onChange={onSetTinFreq}
@@ -62,7 +65,7 @@ function EqControls() {
           id="TinEqReduce"
           type="range"
           defaultValue={tinReduce}
-          min={0}
+          min={0.2}
           max={20}
           step={0.2}
           onChange={onSetTinReduce}
@@ -75,7 +78,7 @@ function EqControls() {
           id="TinQ"
           type="range"
           defaultValue={tinQ}
-          min={0}
+          min={1}
           max={9.8}
           step={0.2}
           onChange={onSetTinQ}
