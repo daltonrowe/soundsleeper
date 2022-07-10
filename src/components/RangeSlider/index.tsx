@@ -14,5 +14,6 @@ export const RangeSlider = styled("input")`
     width: 20px;
     height: 30px;
     appearance: none;
+    box-shadow: none;
   }
 `;
