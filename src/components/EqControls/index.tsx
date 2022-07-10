@@ -11,6 +11,7 @@ function EqControls() {
   const setTinQ = useAudioController((state) => state.setTinQ);
   const tinFreq = useAudioController((state) => state.tinFreq);
   const tinReduce = useAudioController((state) => state.tinReduce);
+  const tinQ = useAudioController((state) => state.tinQ);
 
   const onSetTinFreq = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -45,7 +46,7 @@ function EqControls() {
         <RangeSlider
           id="tinEqRange"
           type="range"
-          defaultValue={8000}
+          defaultValue={tinFreq}
           min={0}
           max={22000}
           step={1000}
@@ -60,7 +61,7 @@ function EqControls() {
         <RangeSlider
           id="TinEqReduce"
           type="range"
-          defaultValue={16}
+          defaultValue={tinReduce}
           min={0}
           max={20}
           step={0.2}
@@ -73,7 +74,7 @@ function EqControls() {
         <RangeSlider
           id="TinQ"
           type="range"
-          defaultValue={4}
+          defaultValue={tinQ}
           min={0}
           max={9.8}
           step={0.2}

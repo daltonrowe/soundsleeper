@@ -6,7 +6,7 @@ export const accent = "#4e4ece";
 
 export const borderRadius = "8px";
 
-export const initialGain = 1;
+export const initialGain = 0.5;
 
 export const initialTinFreq = 8000;
 export const initialTinReduce = 16;

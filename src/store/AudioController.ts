@@ -1,4 +1,3 @@
-import { MutableRefObject } from "react";
 import create from "zustand";
 import {
   initialGain,
