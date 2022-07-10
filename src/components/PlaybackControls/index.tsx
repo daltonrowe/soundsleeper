@@ -1,7 +1,9 @@
+import { useRef } from "react";
 import useAudioController, { AudioState } from "@/store/AudioController";
 import whiteNoiseUrl from "@/assets/audio/white-noise.wav";
 import playIcon from "@/assets/img/play.svg";
 import pauseIcon from "@/assets/img/pause.svg";
+import silenceUrl from "@/assets/audio/silence.wav";
 
 import {
   borderRadius,
@@ -37,7 +39,12 @@ export const PlaybackButton = styled("button")`
   }
 `;
 
+const HiddenAudio = styled("audio")`
+  display: none;
+`;
+
 function PlaybackControls() {
+  const hiddenAudioRef = useRef<HTMLAudioElement | null>(null);
   const initialized = useAudioController((state) => state.initialized);
   const audioState = useAudioController((state) => state.audioState);
 
@@ -46,32 +53,24 @@ function PlaybackControls() {
   const play = useAudioController((state) => state.play);
   const stop = useAudioController((state) => state.stop);
 
-  const onPlay = () => {
+  const isPlaying = audioState === AudioState.PLAYING;
+  const buttonIcon = !isPlaying ? playIcon : pauseIcon;
+
+  const onButtonClick = () => {
     if (!initialized) {
-      init();
+      init(hiddenAudioRef.current);
       fetchSrc(whiteNoiseUrl);
     }
 
-    play();
+    !isPlaying ? play() : stop();
   };
-
-  const onStop = () => {
-    stop();
-  };
-
-  const isPlaying = audioState === AudioState.PLAYING;
 
   return (
     <>
-      {!isPlaying ? (
-        <PlaybackButton onClick={onPlay}>
-          <img src={playIcon} />
-        </PlaybackButton>
-      ) : (
-        <PlaybackButton onClick={onStop}>
-          <img src={pauseIcon} />
-        </PlaybackButton>
-      )}
+      <PlaybackButton onClick={onButtonClick}>
+        <img src={buttonIcon} />
+      </PlaybackButton>
+      <HiddenAudio ref={hiddenAudioRef} src={silenceUrl} loop></HiddenAudio>
     </>
   );
 }

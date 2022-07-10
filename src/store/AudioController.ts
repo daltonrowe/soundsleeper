@@ -1,3 +1,4 @@
+import { MutableRefObject } from "react";
 import create from "zustand";
 import {
   initialGain,
@@ -26,7 +27,7 @@ interface AudioControllerState {
   tinReduce: number;
   tinQ: number;
 
-  init: () => void;
+  init: (audioRef: HTMLAudioElement | null) => void;
   fetchSrc: (url: string) => void;
   play: () => void;
   stop: () => void;
@@ -50,7 +51,7 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   tinReduce: initialTinReduce,
   tinQ: initialTinQ,
 
-  init: () => {
+  init: (audioRef: HTMLAudioElement | null) => {
     const prevAudioContext = get().audioContext;
     const { gain, tinFreq, tinReduce, tinQ } = get();
     if (prevAudioContext) return; // context has already been created
@@ -76,7 +77,10 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
       .connect(eqNode)
       .connect(audioContext.destination);
 
+    if (audioRef) audioRef.volume = 0;
+
     set({
+      audioRef,
       audioContext,
       audioSource,
       gainNode,
@@ -98,16 +102,18 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
   },
 
   play: () => {
-    const { audioSource, audioContext, audioState, gainNode } = get();
+    const { audioRef, audioSource, audioContext, audioState, gainNode } = get();
     if (!audioSource || !audioContext || !gainNode) return;
 
     switch (audioState) {
       case AudioState.NOTSTARTED:
         audioSource.start();
+        if (audioRef) audioRef.pause();
         break;
 
       case AudioState.STOPPED:
         audioSource.connect(gainNode);
+        if (audioRef) audioRef.play();
         break;
 
       default:
