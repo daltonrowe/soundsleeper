@@ -96,8 +96,8 @@ const useAudioController = create<AudioControllerState>()((set, get) => ({
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: "Soundsleeper",
-        artist: "",
-        album: "",
+        artist: "Dalton Rowe",
+        album: "Looping sounds for sleep and tinnitus relief",
         artwork: [
           {
             src: mediasessionImage,
