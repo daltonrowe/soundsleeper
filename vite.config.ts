@@ -8,26 +8,31 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
       workbox: {
         globPatterns: ["**/*{js,css,html,png,svg,mp3,wav}"],
       },
-      includeAssets: ["favicon.svg", "apple-touch-icon.png"],
       manifest: {
+        id: "/",
         name: "Soundsleeper",
         short_name: "Soundsleeper",
         description: "Looping Sounds for Sleep & Tinnitus Relief",
         theme_color: "#4e4ece",
         icons: [
           {
-            src: "src/assets/img/pwa-192.png",
+            src: "pwa-192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "src/assets/img/pwa-512.png",
+            src: "pwa-512.png",
             sizes: "512x512",
             type: "image/png",
+          },
+          {
+            src: "favicon.svg",
+            sizes: "512x512",
+            type: "image/svg",
             purpose: "any maskable",
           },
         ],
